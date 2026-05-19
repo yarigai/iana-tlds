@@ -37,7 +37,8 @@
     "lint:fix": "eslint src --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepack": "pnpm run build"
+    "prepack": "pnpm run build",
+    "release": "f() { pnpm version ${1:-patch} && git push && git push --tags; }; f"
   },
   "keywords": [
     "iana",

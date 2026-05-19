@@ -35,6 +35,7 @@ build_and_test:
         path: coverage/cobertura-coverage.xml
     expire_in: 1 hour
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == "schedule"
 
@@ -51,7 +52,7 @@ publish_package:
   dependencies:
     - build_and_test
   script:
-    # Detect whether IANA data changed during this pipeline run
+    # Scheduled sync: only publish if IANA data changed, then bump version
     - |
       if [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then
         if git diff --quiet src/data/tlds.ts; then
@@ -59,10 +60,9 @@ publish_package:
           exit 0
         fi
         echo "TLD list updated — proceeding with publish."
+        pnpm version patch --no-git-tag-version
       fi
 
-    # Bump patch version without creating a git tag (we do it manually below)
-    - pnpm version patch --no-git-tag-version
     - NEW_VERSION=$(node -p "require('./package.json').version")
     - echo "Publishing v${NEW_VERSION}"
 
@@ -83,6 +83,5 @@ publish_package:
         git push origin "v${NEW_VERSION}"
       fi
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "schedule"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: manual
