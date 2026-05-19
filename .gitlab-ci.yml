@@ -68,7 +68,7 @@ publish_package:
 
     # Publish to npm
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-    - pnpm publish --access public --no-git-checks
+    - pnpm publish --access public --no-git-checks --ignore-scripts
 
     # Commit updated files and push back to the repo (scheduled syncs only)
     - |
