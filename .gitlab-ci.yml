@@ -51,6 +51,10 @@ publish_package:
   stage: publish
   dependencies:
     - build_and_test
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq git
+    - corepack enable
+    - corepack prepare pnpm@${PNPM_VERSION} --activate
   script:
     # Scheduled sync: only publish if IANA data changed, then bump version
     - |
