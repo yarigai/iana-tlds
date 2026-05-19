@@ -62,5 +62,3 @@ export function validateEmail(email: string): EmailValidation {
 export function isValidEmail(email: string): boolean {
   return validateEmail(email).valid;
 }
-
-export default tldsList;

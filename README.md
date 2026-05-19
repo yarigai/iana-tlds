@@ -32,13 +32,13 @@ if (result.valid) {
   console.log(result.tld); // "com"
 } else {
   console.log(result.reason); // "invalid_format" | "unknown_tld"
-  console.log(result.tld);    // string if parsed, null if format was invalid
+  console.log(result.tld); // string if parsed, null if format was invalid
 }
 
 // Boolean shorthand
-console.log(isValidEmail("user@example.com"));    // true
-console.log(isValidEmail("user@example.xyzzy"));  // false
-console.log(isValidEmail("not-an-email"));         // false
+console.log(isValidEmail("user@example.com")); // true
+console.log(isValidEmail("user@example.xyzzy")); // false
+console.log(isValidEmail("not-an-email")); // false
 ```
 
 ### Work with the raw TLD list
@@ -50,7 +50,7 @@ import tldsList, { lastUpdated } from "@yarigai/iana-tlds";
 // lastUpdated → ISO 8601 timestamp of the IANA source file bundled in this release
 
 console.log(tldsList.includes("com")); // true
-console.log(lastUpdated);              // "2026-05-19T07:07:02.000Z"
+console.log(lastUpdated); // "2026-05-19T07:07:02.000Z"
 ```
 
 ### Named imports
@@ -69,20 +69,20 @@ are outside the scope of this function.
 
 Returns an `EmailValidation` discriminated union:
 
-| Shape | When |
-|-------|------|
-| `{ valid: true; email: string; tld: string }` | TLD is recognised by IANA |
-| `{ valid: false; email: string; tld: string; reason: "unknown_tld" }` | TLD parsed but not in IANA list |
-| `{ valid: false; email: string; tld: null; reason: "invalid_format" }` | No TLD could be extracted |
+| Shape                                                                  | When                            |
+| ---------------------------------------------------------------------- | ------------------------------- |
+| `{ valid: true; email: string; tld: string }`                          | TLD is recognised by IANA       |
+| `{ valid: false; email: string; tld: string; reason: "unknown_tld" }`  | TLD parsed but not in IANA list |
+| `{ valid: false; email: string; tld: null; reason: "invalid_format" }` | No TLD could be extracted       |
 
 ```ts
-validateEmail("user@example.com")
+validateEmail("user@example.com");
 // { valid: true, email: "user@example.com", tld: "com" }
 
-validateEmail("user@example.xyzzy")
+validateEmail("user@example.xyzzy");
 // { valid: false, email: "user@example.xyzzy", tld: "xyzzy", reason: "unknown_tld" }
 
-validateEmail("not-an-email")
+validateEmail("not-an-email");
 // { valid: false, email: "not-an-email", tld: null, reason: "invalid_format" }
 ```
 
@@ -97,17 +97,17 @@ email has a valid IANA TLD, `false` otherwise.
 type EmailValidationReason = "invalid_format" | "unknown_tld";
 
 type EmailValidation =
-  | { valid: true;  email: string; tld: string }
+  | { valid: true; email: string; tld: string }
   | { valid: false; email: string; tld: string | null; reason: EmailValidationReason };
 ```
 
 ### Data exports
 
-| Export | Type | Description |
-|--------|------|-------------|
-| `default` | `string[]` | Array of all valid TLDs in lowercase |
-| `tldsList` | `string[]` | Same array, named export |
-| `lastUpdated` | `string` | ISO 8601 timestamp from the IANA source |
+| Export        | Type       | Description                             |
+| ------------- | ---------- | --------------------------------------- |
+| `default`     | `string[]` | Array of all valid TLDs in lowercase    |
+| `tldsList`    | `string[]` | Same array, named export                |
+| `lastUpdated` | `string`   | ISO 8601 timestamp from the IANA source |
 
 ## Data source & sync
 
@@ -142,4 +142,4 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
-Maintained by [Yarigai](https://yarigai.com) — Technology consulting & custom software development.
+Maintained by [Yarigai](https://yarigai.com) — Enterprise Technology Architecture & Strategic IT Consulting.

@@ -178,13 +178,7 @@ describe("isValidEmail", () => {
   });
 
   it("is consistent with validateEmail", () => {
-    const emails = [
-      "user@example.com",
-      "bad@fake.xyzzy",
-      "notanemail",
-      "user@EXAMPLE.ORG",
-      "a@b.",
-    ];
+    const emails = ["user@example.com", "bad@fake.xyzzy", "notanemail", "user@EXAMPLE.ORG", "a@b."];
     for (const email of emails) {
       expect(isValidEmail(email)).toBe(validateEmail(email).valid);
     }

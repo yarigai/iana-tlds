@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] — 2026-05-19
 
 ### Added
+
 - Initial release.
 - `tldsList` — pre-bundled array of all IANA-registered TLDs in lowercase.
 - `lastUpdated` — ISO 8601 timestamp of the IANA source file bundled in this release.
