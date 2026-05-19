@@ -44,7 +44,7 @@ console.log(isValidEmail("not-an-email")); // false
 ### Work with the raw TLD list
 
 ```ts
-import tldsList, { lastUpdated } from "@yarigai/iana-tlds";
+import { tldsList, lastUpdated } from "@yarigai/iana-tlds";
 
 // tldsList → string[] of lowercase TLDs, e.g. ["aaa", "aarp", ..., "zw"]
 // lastUpdated → ISO 8601 timestamp of the IANA source file bundled in this release
@@ -105,8 +105,7 @@ type EmailValidation =
 
 | Export        | Type       | Description                             |
 | ------------- | ---------- | --------------------------------------- |
-| `default`     | `string[]` | Array of all valid TLDs in lowercase    |
-| `tldsList`    | `string[]` | Same array, named export                |
+| `tldsList`    | `string[]` | Array of all valid TLDs in lowercase    |
 | `lastUpdated` | `string`   | ISO 8601 timestamp from the IANA source |
 
 ## Data source & sync

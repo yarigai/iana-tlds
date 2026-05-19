@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import tldsList, {
+import {
+  tldsList,
   lastUpdated,
-  tldsList as namedTldsList,
   validateEmail,
   isValidEmail,
   type EmailValidation,
@@ -35,8 +35,8 @@ describe("tldsList", () => {
     expect(new Set(tldsList).size).toBe(tldsList.length);
   });
 
-  it("default export is the same reference as the named tldsList export", () => {
-    expect(tldsList).toBe(namedTldsList);
+  it("is exported as tldsList", () => {
+    expect(typeof tldsList[0]).toBe("string");
   });
 });
 
