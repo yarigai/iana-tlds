@@ -141,4 +141,4 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
-Maintained by [Yarigai](https://yarigai.com) — Enterprise Technology Architecture & Strategic IT Consulting.
+Maintained by [Yarigai](https://yarigai.mx) — Enterprise Technology Architecture & Strategic IT Consulting.
