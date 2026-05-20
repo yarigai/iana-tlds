@@ -60,12 +60,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/yarigai/packages/iana-tlds.git"
+    "url": "https://github.com/yarigai/iana-tlds.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/yarigai/packages/iana-tlds/-/issues"
+    "url": "https://github.com/yarigai/iana-tlds/issues"
   },
-  "homepage": "https://gitlab.com/yarigai/packages/iana-tlds#readme",
+  "homepage": "https://github.com/yarigai/iana-tlds#readme",
   "publishConfig": {
     "access": "public"
   },

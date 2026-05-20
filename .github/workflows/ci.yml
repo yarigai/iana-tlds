@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  schedule:
+    - cron: '0 6 * * 1' # Weekly, Monday 6am UTC
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      tld_changed: ${{ steps.tld_check.outputs.changed }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+      - run: corepack enable && corepack prepare pnpm@10.33.0 --activate
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/update-tlds.mjs
+      - name: Check if TLD list changed
+        id: tld_check
+        run: |
+          if git diff --quiet src/data/tlds.ts; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      - run: pnpm run build
+      - run: pnpm test:coverage
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule'
+        with:
+          name: build-artifacts
+          path: |
+            dist/
+            src/data/tlds.ts
+          retention-days: 1
+
+  publish:
+    needs: build
+    if: |
+      startsWith(github.ref, 'refs/tags/v') ||
+      (github.event_name == 'schedule' && needs.build.outputs.tld_changed == 'true')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - run: corepack enable && corepack prepare pnpm@10.33.0 --activate
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: build-artifacts
+      - name: Bump version (schedule only)
+        if: github.event_name == 'schedule'
+        run: pnpm version patch --no-git-tag-version
+      - name: Publish to npm
+        run: pnpm publish --access public --no-git-checks --ignore-scripts --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Commit and push (schedule only)
+        if: github.event_name == 'schedule'
+        run: |
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          git config user.name "Yarigai CI Bot"
+          git config user.email "ci-bot@yarigai.mx"
+          git add src/data/tlds.ts package.json
+          git commit -m "chore(sync): update IANA TLD list → v${NEW_VERSION} [skip ci]"
+          git tag "v${NEW_VERSION}"
+          git push origin HEAD:main
+          git push origin "v${NEW_VERSION}"
