@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@yarigai/iana-tlds.svg)](https://www.npmjs.com/package/@yarigai/iana-tlds)
 [![License: MIT](https://img.shields.io/npm/l/@yarigai/iana-tlds.svg)](LICENSE)
-[![Coverage](https://gitlab.com/yarigai/packages/iana-tlds/badges/main/coverage.svg)](https://gitlab.com/yarigai/packages/iana-tlds/-/pipelines)
+[![CI](https://github.com/yarigai/iana-tlds/actions/workflows/ci.yml/badge.svg)](https://github.com/yarigai/iana-tlds/actions/workflows/ci.yml)
 [![IANA sync](https://img.shields.io/badge/IANA_sync-daily-blue.svg)](https://data.iana.org/TLD/tlds-alpha-by-domain.txt)
 
 Always up-to-date IANA TLD list for domain validation in production systems.
