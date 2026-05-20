@@ -51,9 +51,6 @@ publish_package:
   stage: publish
   dependencies:
     - build_and_test
-  id_tokens:
-    SIGSTORE_ID_TOKEN:
-      aud: sigstore
   before_script:
     - apt-get update -qq && apt-get install -y -qq git
     - corepack enable
@@ -75,7 +72,7 @@ publish_package:
 
     # Publish to npm
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-    - pnpm publish --access public --no-git-checks --ignore-scripts --provenance
+    - pnpm publish --access public --no-git-checks --ignore-scripts
 
     # Commit updated files and push back to the repo (scheduled syncs only)
     - |
