@@ -131,7 +131,7 @@ pnpm run build
 ## Contributing
 
 Bug reports and pull requests are welcome at
-[gitlab.com/yarigai/packages/iana-tlds](https://gitlab.com/yarigai/packages/iana-tlds).
+[github.com/yarigai/iana-tlds](https://github.com/yarigai/iana-tlds).
 
 Please open an issue first for non-trivial changes.
 

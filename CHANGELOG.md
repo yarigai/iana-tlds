@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `validateEmail(email)` — synchronous validation with a discriminated union result.
 - `isValidEmail(email)` — boolean convenience wrapper.
 - TypeScript strict mode with full type declarations (ESM + CJS dual build).
-- Automated daily sync pipeline via GitLab CI/CD.
+- Automated weekly sync pipeline via GitHub Actions.
 
-[Unreleased]: https://gitlab.com/yarigai/packages/iana-tlds/-/compare/v1.0.0...HEAD
-[1.0.0]: https://gitlab.com/yarigai/packages/iana-tlds/-/tags/v1.0.0
+[Unreleased]: https://github.com/yarigai/iana-tlds/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/yarigai/iana-tlds/releases/tag/v1.0.0
