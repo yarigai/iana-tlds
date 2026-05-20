@@ -68,7 +68,14 @@ jobs:
         if: github.event_name == 'schedule'
         run: pnpm version patch --no-git-tag-version
       - name: Publish to npm
-        run: pnpm publish --access public --no-git-checks --ignore-scripts --provenance
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          EXISTS=$(npm view @yarigai/iana-tlds@${VERSION} version 2>/dev/null || echo "")
+          if [ -n "$EXISTS" ]; then
+            echo "Version ${VERSION} already published, skipping."
+          else
+            pnpm publish --access public --no-git-checks --ignore-scripts --provenance
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Commit and push (schedule only)
