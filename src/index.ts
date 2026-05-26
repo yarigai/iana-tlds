@@ -30,11 +30,11 @@ const tldsSet = new Set(rawTlds);
  * resolution are outside the scope of this function.
  *
  * @example
- * validateEmail("user@example.com")
- * // { valid: true, email: "user@example.com", tld: "com" }
+ * validateEmail("user@domain.com")
+ * // { valid: true, email: "user@domain.com", tld: "com" }
  *
- * validateEmail("user@example.xyzzy")
- * // { valid: false, email: "user@example.xyzzy", tld: "xyzzy", reason: "unknown_tld" }
+ * validateEmail("user@domain.xyzzy")
+ * // { valid: false, email: "user@domain.xyzzy", tld: "xyzzy", reason: "unknown_tld" }
  *
  * validateEmail("not-an-email")
  * // { valid: false, email: "not-an-email", tld: null, reason: "invalid_format" }
