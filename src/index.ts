@@ -28,16 +28,6 @@ const tldsSet = new Set(rawTlds);
  *
  * Only the TLD portion of the domain is checked — local-part syntax and DNS
  * resolution are outside the scope of this function.
- *
- * @example
- * validateEmail("user@domain.com")
- * // { valid: true, email: "user@domain.com", tld: "com" }
- *
- * validateEmail("user@domain.xyzzy")
- * // { valid: false, email: "user@domain.xyzzy", tld: "xyzzy", reason: "unknown_tld" }
- *
- * validateEmail("not-an-email")
- * // { valid: false, email: "not-an-email", tld: null, reason: "invalid_format" }
  */
 export function validateEmail(email: string): EmailValidation {
   const lastAt = email.lastIndexOf("@");

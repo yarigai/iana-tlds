@@ -27,18 +27,18 @@ pnpm add @yarigai/iana-tlds
 import { validateEmail, isValidEmail } from "@yarigai/iana-tlds";
 
 // Detailed result — discriminate on `valid`
-const result = validateEmail("user@domain.com");
+const result = validateEmail(email);
 if (result.valid) {
-  console.log(result.tld); // "com"
+  console.log(result.tld); // e.g. "com", "mx", "org"
 } else {
   console.log(result.reason); // "invalid_format" | "unknown_tld"
   console.log(result.tld); // string if parsed, null if format was invalid
 }
 
 // Boolean shorthand
-console.log(isValidEmail("user@domain.com")); // true
-console.log(isValidEmail("user@domain.xyzzy")); // false
-console.log(isValidEmail("not-an-email")); // false
+isValidEmail(email);          // true  — TLD is IANA-registered
+isValidEmail(unknownTldEmail); // false — TLD not in IANA list
+isValidEmail("not-an-email"); // false — invalid format
 ```
 
 ### Work with the raw TLD list
@@ -76,14 +76,14 @@ Returns an `EmailValidation` discriminated union:
 | `{ valid: false; email: string; tld: null; reason: "invalid_format" }` | No TLD could be extracted       |
 
 ```ts
-validateEmail("user@domain.com");
-// { valid: true, email: "user@domain.com", tld: "com" }
+// valid IANA TLD → { valid: true, email, tld: "com" }
+validateEmail(email);
 
-validateEmail("user@domain.xyzzy");
-// { valid: false, email: "user@domain.xyzzy", tld: "xyzzy", reason: "unknown_tld" }
+// unrecognised TLD → { valid: false, email, tld: "xyzzy", reason: "unknown_tld" }
+validateEmail(unknownTldEmail);
 
+// no TLD found → { valid: false, email: "not-an-email", tld: null, reason: "invalid_format" }
 validateEmail("not-an-email");
-// { valid: false, email: "not-an-email", tld: null, reason: "invalid_format" }
 ```
 
 ### `isValidEmail(email: string): boolean`
