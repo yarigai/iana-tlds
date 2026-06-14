@@ -1,6 +1,6 @@
 {
   "name": "@yarigai/iana-tlds",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "Always up-to-date list of valid Top-Level Domains (TLDs) sourced directly from IANA",
   "type": "module",
   "main": "./dist/index.cjs",
