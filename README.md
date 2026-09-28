@@ -31,7 +31,7 @@ Results from running each package's latest npm release on 2026-09-28.
 | Accepts `.photography` | yes                  | yes                 | yes                                | yes                                  | yes                                  |
 | Accepts `.xn--p1ai`    | yes                  | Unicode only (`рф`) | yes                                | no                                   | yes                                  |
 | Includes `.web`        | yes                  | no                  | n/a (no TLD list)                  | n/a (no TLD list)                    | n/a (no TLD list)                    |
-| Last npm release       | daily sync           | 2025-10-22          | 2026-04-02                         | 2018-05-27                           | 2022-02-22                           |
+| Last npm release       | on IANA list change  | 2025-10-22          | 2026-04-02                         | 2018-05-27                           | 2022-02-22                           |
 | Runtime dependencies   | 0                    | 0                   | 0                                  | 0                                    | 1 (`punycode`)                       |
 | TypeScript types       | bundled              | bundled             | via `@types/validator`             | bundled                              | bundled                              |
 

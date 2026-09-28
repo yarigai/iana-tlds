@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Docs and package metadata only (PATCH).
+## [1.0.103] - 2026-09-28
+
+Docs, package metadata and sync pipeline (PATCH).
+
+### Fixed
+
+- The daily sync no longer publishes a release when only IANA's `Last Updated` timestamp changes. A new version is published only when a TLD is added or removed. Before this fix, 96 of 97 automated releases contained no change to the list.
 
 ### Changed
 
@@ -27,5 +33,6 @@ Docs and package metadata only (PATCH).
 - TypeScript strict mode with full type declarations (ESM + CJS dual build).
 - Automated daily sync pipeline via GitHub Actions.
 
-[Unreleased]: https://github.com/yarigai/iana-tlds/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/yarigai/iana-tlds/compare/v1.0.103...HEAD
+[1.0.103]: https://github.com/yarigai/iana-tlds/compare/v1.0.102...v1.0.103
 [1.0.0]: https://github.com/yarigai/iana-tlds/releases/tag/v1.0.0
