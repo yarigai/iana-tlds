@@ -1,7 +1,7 @@
 {
   "name": "@yarigai/iana-tlds",
   "version": "1.0.102",
-  "description": "Always up-to-date list of valid Top-Level Domains (TLDs) sourced directly from IANA",
+  "description": "Validate email and domain TLDs against the official IANA list, checked daily. Zero dependencies, TypeScript types, ESM + CJS.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -41,12 +41,18 @@
     "release": "f() { pnpm version ${1:-patch} && git push && git push --tags; }; f"
   },
   "keywords": [
-    "iana",
+    "email",
+    "email-validation",
+    "domain",
+    "domain-validation",
     "tld",
     "tlds",
-    "domains",
+    "iana",
+    "validator",
     "validation",
-    "email"
+    "typescript",
+    "idn",
+    "punycode"
   ],
   "author": {
     "name": "Yarigai",
@@ -60,7 +66,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yarigai/iana-tlds.git"
+    "url": "git+https://github.com/yarigai/iana-tlds.git"
   },
   "bugs": {
     "url": "https://github.com/yarigai/iana-tlds/issues"
