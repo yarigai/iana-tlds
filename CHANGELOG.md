@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.103] - 2026-09-28
+## [1.1.0] - 2026-09-28
 
-Docs, package metadata and sync pipeline (PATCH).
+Docs, package metadata and sync pipeline.
 
 ### Fixed
 
@@ -33,6 +33,6 @@ Docs, package metadata and sync pipeline (PATCH).
 - TypeScript strict mode with full type declarations (ESM + CJS dual build).
 - Automated daily sync pipeline via GitHub Actions.
 
-[Unreleased]: https://github.com/yarigai/iana-tlds/compare/v1.0.103...HEAD
-[1.0.103]: https://github.com/yarigai/iana-tlds/compare/v1.0.102...v1.0.103
+[Unreleased]: https://github.com/yarigai/iana-tlds/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/yarigai/iana-tlds/compare/v1.0.102...v1.1.0
 [1.0.0]: https://github.com/yarigai/iana-tlds/releases/tag/v1.0.0
