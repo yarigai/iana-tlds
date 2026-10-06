@@ -3,9 +3,9 @@ name: CI
 on:
   push:
     branches: [main]
-    tags: ['v*']
+    tags: ["v*"]
   schedule:
-    - cron: '0 6 * * *' # Daily, 6am UTC
+    - cron: "0 6 * * *" # Daily, 6am UTC
 
 permissions:
   contents: read
@@ -16,12 +16,13 @@ jobs:
     outputs:
       tld_changed: ${{ steps.tld_check.outputs.changed }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
-      - run: corepack enable && corepack prepare pnpm@10.33.0 --activate
-      - run: pnpm install --frozen-lockfile
+          node-version: "24"
+          cache: pnpm
+      # The sync script only needs Node built-ins, so it runs before installing anything.
       - run: node scripts/update-tlds.mjs
       - name: Check if TLD list changed
         id: tld_check
@@ -31,10 +32,20 @@ jobs:
           else
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
+      # On a scheduled run with no TLD changes there is nothing to build or publish.
+      - name: Decide whether to build
+        id: gate
+        run: echo "run=${{ github.event_name != 'schedule' || steps.tld_check.outputs.changed == 'true' }}" >> $GITHUB_OUTPUT
+      - run: pnpm install --frozen-lockfile
+        if: steps.gate.outputs.run == 'true'
       - run: pnpm run build
+        if: steps.gate.outputs.run == 'true'
       - run: pnpm test:coverage
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'schedule'
+        if: steps.gate.outputs.run == 'true'
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: |
+          startsWith(github.ref, 'refs/tags/v') ||
+          (github.event_name == 'schedule' && steps.tld_check.outputs.changed == 'true')
         with:
           name: build-artifacts
           path: |
@@ -52,21 +63,20 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      # No install needed: dist/ comes prebuilt from the build job and npm ships with Node.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: corepack enable && corepack prepare pnpm@10.33.0 --activate
-      - run: pnpm install --frozen-lockfile
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: build-artifacts
       - name: Bump version (schedule only)
         if: github.event_name == 'schedule'
-        run: pnpm version patch --no-git-tag-version
+        run: npm version patch --no-git-tag-version
       - name: Publish to npm
         run: |
           VERSION=$(node -p "require('./package.json').version")
@@ -74,7 +84,7 @@ jobs:
           if [ -n "$EXISTS" ]; then
             echo "Version ${VERSION} already published, skipping."
           else
-            pnpm publish --access public --no-git-checks --ignore-scripts --provenance
+            npm publish --access public --ignore-scripts --provenance
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

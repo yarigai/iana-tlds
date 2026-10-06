@@ -6,9 +6,8 @@
     "lib": ["ES2022", "DOM"],
     "strict": true,
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },

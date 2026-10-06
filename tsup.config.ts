@@ -5,7 +5,6 @@ export default defineConfig({
   format: ["esm", "cjs"],
   dts: true,
   clean: true,
-  sourcemap: true,
   target: "es2022",
   treeshake: true,
 });
