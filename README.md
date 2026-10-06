@@ -9,6 +9,8 @@
 
 Validate email and domain TLDs against the official IANA list, checked daily. Zero dependencies, fully typed, ESM + CJS.
 
+Using Go? [`github.com/yarigai/iana-tlds-go`](https://github.com/yarigai/iana-tlds-go) is the official port, with the same behavior, the same TLD list and byte-identical JSON results.
+
 ## Why
 
 Most email and domain validators decide what a TLD is with a regex or a list someone copied years ago. Both fail in production. A pattern like `\.[a-z]{2,6}$` rejects real TLDs such as `.photography` or the internationalized `.xn--p1ai` (Russian `.рф`), and happily accepts typos like `.con` or `.comm`. Hardcoded lists go stale: IANA added `.web` in 2026, and it retires TLDs too (`.goo` is gone). This package checks the TLD against IANA's [root zone list](https://data.iana.org/TLD/tlds-alpha-by-domain.txt), bundled at build time, with no network call at runtime.

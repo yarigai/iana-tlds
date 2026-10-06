@@ -158,6 +158,29 @@ describe("validateEmail — invalid_format", () => {
     const result = validateEmail(input);
     expect(result.email).toBe(input);
   });
+
+  it("rejects an empty string", () => {
+    expect(validateEmail("")).toEqual<EmailValidation>({
+      valid: false,
+      email: "",
+      tld: null,
+      reason: "invalid_format",
+    });
+  });
+});
+
+// The JSON shape is the cross-language contract with github.com/yarigai/iana-tlds-go.
+describe("validateEmail — JSON contract", () => {
+  it.each([
+    ["user@example.com", `{"valid":true,"email":"user@example.com","tld":"com"}`],
+    [
+      "user@example.xyzzy",
+      `{"valid":false,"email":"user@example.xyzzy","tld":"xyzzy","reason":"unknown_tld"}`,
+    ],
+    ["not-an-email", `{"valid":false,"email":"not-an-email","tld":null,"reason":"invalid_format"}`],
+  ])("%s serialises identically to the Go port", (email, json) => {
+    expect(JSON.stringify(validateEmail(email))).toBe(json);
+  });
 });
 
 // ─── isValidEmail ─────────────────────────────────────────────────────────────
